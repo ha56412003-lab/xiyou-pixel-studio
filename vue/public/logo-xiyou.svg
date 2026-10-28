@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="西柚像素工坊">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ff8a5c"/>
+      <stop offset="100%" stop-color="#ff5c8a"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#7c5cff"/>
+    </linearGradient>
+  </defs>
+  <!-- 像素化的西柚果体：外圈 8px 方块，内圈更亮 -->
+  <g fill="url(#g1)">
+    <rect x="24" y="8"  width="8" height="8"/><rect x="32" y="8"  width="8" height="8"/>
+    <rect x="16" y="16" width="8" height="8"/><rect x="40" y="16" width="8" height="8"/>
+    <rect x="8"  y="24" width="8" height="8"/><rect x="48" y="24" width="8" height="8"/>
+    <rect x="8"  y="32" width="8" height="8"/><rect x="48" y="32" width="8" height="8"/>
+    <rect x="16" y="40" width="8" height="8"/><rect x="40" y="40" width="8" height="8"/>
+    <rect x="24" y="48" width="8" height="8"/><rect x="32" y="48" width="8" height="8"/>
+  </g>
+  <!-- 果肉（亮色）+ 中心留白做切面感 -->
+  <g fill="#ffd0c2" opacity="0.95">
+    <rect x="24" y="16" width="8" height="8"/><rect x="32" y="16" width="8" height="8"/>
+    <rect x="16" y="24" width="8" height="8"/><rect x="40" y="24" width="8" height="8"/>
+    <rect x="16" y="32" width="8" height="8"/><rect x="40" y="32" width="8" height="8"/>
+    <rect x="24" y="40" width="8" height="8"/><rect x="32" y="40" width="8" height="8"/>
+  </g>
+  <!-- 中心像素：AI 生成的核心，用主色紫 -->
+  <rect x="24" y="24" width="16" height="16" rx="2" fill="url(#g2)"/>
+  <rect x="28" y="28" width="8" height="8" fill="#ffffff" opacity="0.92"/>
+  <!-- 叶子 -->
+  <rect x="40" y="8" width="8" height="8" fill="#5eead4"/>
+  <rect x="48" y="4" width="8" height="8" fill="#5eead4" opacity="0.75"/>
+</svg>

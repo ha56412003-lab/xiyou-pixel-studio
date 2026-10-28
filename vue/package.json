@@ -1,0 +1,42 @@
+{
+  "name": "Cogin X",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@google/model-viewer": "^4.1.0",
+    "@yeger/vue-masonry-wall": "^5.1.1",
+    "axios": "^1.9.0",
+    "element-plus": "^2.9.11",
+    "fabric": "^6.7.1",
+    "highlight.js": "^11.11.1",
+    "lottie-web": "^5.13.0",
+    "markdown-it": "^14.1.0",
+    "mitt": "^3.0.1",
+    "pinia": "^3.0.3",
+    "vue": "^3.5.13",
+    "vue-i18n": "^9.14.5",
+    "vue-router": "^4.5.0",
+    "vue-waterfall-plugin-next": "^2.6.5",
+    "vue-waterfall2": "^1.10.9"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^22.15.26",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "@vue/tsconfig": "^0.7.0",
+    "rollup-plugin-visualizer": "^6.0.4",
+    "sass": "^1.89.0",
+    "terser": "^5.44.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0",
+    "vite-plugin-compression": "^0.5.1",
+    "vue-tsc": "^2.2.4"
+  }
+}

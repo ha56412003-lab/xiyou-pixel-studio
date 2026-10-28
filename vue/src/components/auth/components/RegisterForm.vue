@@ -1,0 +1,168 @@
+<script setup lang="ts">
+import { ElForm, ElFormItem, ElInput, ElButton, ElNotification } from 'element-plus'
+import { reactive, ref, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import TermsAgreement from './TermsAgreement.vue'
+
+defineOptions({
+  name: 'RegisterForm'
+})
+
+const { t } = useI18n()
+
+const registerForm = reactive({
+  email: '',
+  account: '',
+  password: '',
+  code: ''
+})
+
+const agreementChecked = ref(false)
+// 获取验证码 60 秒倒计时（防止连点触发后端限流）
+const countdown = ref(0)
+let countdownTimer: number | undefined
+const startCountdown = () => {
+  countdown.value = 60
+  if (countdownTimer) window.clearInterval(countdownTimer)
+  countdownTimer = window.setInterval(() => {
+    countdown.value -= 1
+    if (countdown.value <= 0 && countdownTimer) {
+      window.clearInterval(countdownTimer)
+      countdownTimer = undefined
+    }
+  }, 1000)
+}
+onUnmounted(() => {
+  if (countdownTimer) window.clearInterval(countdownTimer)
+})
+
+
+const emit = defineEmits(['register', 'send-code'])
+
+const handleRegister = () => {
+  if (!agreementChecked.value) {
+    ElNotification.warning({
+      title: t('common.warning'),
+      message: t('auth.pleaseAgreeTerms')
+    })
+    return
+  }
+  emit('register', registerForm)
+}
+
+const sendCode = () => {
+  if (countdown.value > 0) return
+  if (!registerForm.email) {
+    ElNotification.warning({ title: t('common.warning'), message: '请先填写邮箱' })
+    return
+  }
+  emit('send-code', registerForm.email)
+  startCountdown()
+}
+</script>
+
+<template>
+  <div class="register-form-container">
+    <el-form :model="registerForm" @submit.prevent="handleRegister" autocomplete="off">
+      <el-form-item prop="email">
+        <el-input v-model="registerForm.email" :placeholder="t('auth.email')" size="large" autocomplete="off" />
+      </el-form-item>
+      <el-form-item prop="code">
+        <div class="verification-code-wrapper">
+          <el-input v-model="registerForm.code" :placeholder="t('auth.verificationCode')" size="large" autocomplete="off" />
+          <div class="custom-send-btn" :class="{ 'is-disabled': countdown > 0 }" @click="sendCode">{{ countdown > 0 ? countdown + 's 后重试' : t('auth.getCode') }}</div>
+        </div>
+      </el-form-item>
+      <el-form-item prop="account">
+        <el-input v-model="registerForm.account" :placeholder="t('auth.account')" size="large" autocomplete="off" />
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          v-model="registerForm.password"
+          type="password"
+          :placeholder="t('auth.password')"
+          show-password
+          size="large"
+          autocomplete="new-password"
+        />
+      </el-form-item>
+      <TermsAgreement v-model="agreementChecked" />
+      <el-form-item>
+        <el-button class="auth-button" type="primary" @click="handleRegister" size="large" native-type="submit">
+          {{ t('auth.register') }}
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+</template>
+
+<style scoped>
+.register-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.auth-button {
+  width: 100%;
+  border-radius: 182px;
+  font-weight: 600;
+}
+
+.verification-code-wrapper {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+.verification-code-wrapper :deep(.el-input) {
+  flex: 1;
+}
+
+.custom-send-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+  height: 40px;
+  background-color: var(--el-color-primary);
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.custom-send-btn:hover {
+  background-color: var(--el-color-primary-light-3);
+}
+
+.custom-send-btn:active {
+  background-color: var(--el-color-primary-dark-2);
+}
+
+:deep(.el-input) {
+  --el-input-bg-color: var(--el-bg-color);
+}
+
+:deep(.el-input__wrapper) {
+  background-color: var(--el-bg-color);
+  box-shadow: 0 0 0 1px var(--el-border-color) inset;
+}
+
+:deep(.el-input__wrapper.is-focus) {
+  background-color: var(--el-bg-color);
+  box-shadow: 0 0 0 1px var(--el-color-primary) inset;
+}
+
+:deep(.el-form) {
+  width: 100%;
+}
+
+.custom-send-btn.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+</style>
